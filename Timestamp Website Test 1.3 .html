@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Precise Time</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background: transparent;
+        }
+
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #time {
+            font-family: 'Arial', arial, monospace;
+            font-weight: 300;
+            font-size: clamp(1.5rem, 8vw, 10rem);
+            color: #ffffff;
+            text-align: center;
+            letter-spacing: 0.02em;
+            white-space: nowrap;
+        }
+
+        @media (prefers-color-scheme: light) {
+            #time {
+                color: #ffffff;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="time">00/00/0000 00:00:00.00</div>
+
+    <script>
+        const timeDisplay = document.getElementById('time');
+
+        function padZero(num, length) {
+            return num.toString().padStart(length, '0');
+        }
+
+        function updateTime() {
+            const now = new Date();
+            
+            const month = padZero(now.getMonth() + 1, 2);
+            const day = padZero(now.getDate(), 2);
+            const year = now.getFullYear();
+            
+            const hours = padZero(now.getHours(), 2);
+            const minutes = padZero(now.getMinutes(), 2);
+            const seconds = padZero(now.getSeconds(), 2);
+            const hundredths = padZero(Math.floor(now.getMilliseconds() / 10), 2);
+            
+            const timeString = `${month}/${day}/${year} ${hours}:${minutes}:${seconds}.${hundredths}`;
+            timeDisplay.textContent = timeString;
+            
+            requestAnimationFrame(updateTime);
+        }
+
+        updateTime();
+    </script>
+</body>
+</html>
